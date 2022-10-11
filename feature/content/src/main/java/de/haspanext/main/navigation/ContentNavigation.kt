@@ -19,6 +19,6 @@ fun NavGraphBuilder.contentGraph(route: String,  onNavigateToNextScreen: (destin
 }
 
 private object ContentRootGraph {
-    const val CONTENT_ROOT = "content:root"
+    const val CONTENT_ROOT = "content_root"
 }
 

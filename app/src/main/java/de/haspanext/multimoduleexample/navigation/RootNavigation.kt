@@ -1,6 +1,7 @@
 package de.haspanext.multimoduleexample.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,12 +28,14 @@ internal fun RootNavigationGraph(navController: NavHostController = rememberNavC
 }
 
 private fun NavGraphBuilder.initNestedSplashGraph(navController: NavHostController) {
+
     val splashNavigation = { destination: SplashNavigationDestination ->
         val route = when (destination) {
             SplashNavigationDestination.Authentication -> AUTH
             SplashNavigationDestination.Content -> CONTENT
         }
         navController.navigate(route) {
+           popUpTo(SPLASH) { inclusive = true }
         }
     }
     splashScreenGraph(splashNavigation, SPLASH)
@@ -59,7 +62,11 @@ private fun NavGraphBuilder.initNestedContentGraph(navController: NavHostControl
     val contentNavigation = { destination: ContentNavigationDestination ->
         when (destination) {
             ContentNavigationDestination.Detail -> TODO()
-            ContentNavigationDestination.Login -> navController.navigate(AUTH)
+            ContentNavigationDestination.Login -> navController.navigate(AUTH) {
+                launchSingleTop = true
+                popUpTo(0)
+                //popUpTo(navController.graph.startDestinationId) { inclusive = true }
+            }
         }
 
     }
@@ -67,7 +74,7 @@ private fun NavGraphBuilder.initNestedContentGraph(navController: NavHostControl
 }
 
 private object RootGraph {
-    const val SPLASH = "root:splash"
-    const val AUTH = "root:auth"
-    const val CONTENT = "root:content"
+    const val SPLASH = "root_splash"
+    const val AUTH = "root_auth"
+    const val CONTENT = "root_content"
 }

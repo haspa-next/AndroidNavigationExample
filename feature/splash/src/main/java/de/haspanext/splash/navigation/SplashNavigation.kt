@@ -22,5 +22,5 @@ fun NavGraphBuilder.splashScreenGraph(
 }
 
 private object SplashGraph {
-    const val SPLASH = "splash:splash"
+    const val SPLASH = "splash_splash"
 }

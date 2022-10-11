@@ -1,7 +1,6 @@
 package de.haspanext.authentication.navigation
 
 import android.util.Log
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -10,7 +9,6 @@ import de.haspanext.authentication.navigation.AuthenticationGraph.LOGIN
 import de.haspanext.authentication.navigation.AuthenticationGraph.START_REGISTER
 import de.haspanext.authentication.ui.LoginScreen
 import de.haspanext.authentication.ui.RegisterScreen
-import kotlin.random.Random
 
 sealed interface AuthenticationNavigationDestination {
     object Content : AuthenticationNavigationDestination
@@ -21,7 +19,6 @@ fun NavGraphBuilder.authenticationGraph(
     onNavigateToNextScreen: (destination: AuthenticationNavigationDestination) -> Unit,
     route: String
 ) {
-    Log.i("prose", "Init AuthGraph: ${navController.backQueue.size}")
     val authNavigation = { destination: AuthenticationNavigationDestination ->
         when (destination) {
             AuthenticationNavigationDestination.Content -> onNavigateToNextScreen(
@@ -32,7 +29,6 @@ fun NavGraphBuilder.authenticationGraph(
 
     navigation(startDestination = LOGIN, route = route) {
         composable(LOGIN) {
-            Log.i("prose", "Inside LoginIsNext")
             LoginScreen(navController=navController) {
                 authNavigation(it)
             }
@@ -45,6 +41,6 @@ fun NavGraphBuilder.authenticationGraph(
 }
 
 internal object AuthenticationGraph {
-    const val LOGIN = "auth:login"
-    const val START_REGISTER = "auth:start_register"
+    const val LOGIN = "auth_login"
+    const val START_REGISTER = "auth_start_register"
 }
