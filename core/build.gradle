@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'de.haspanext.authentication'
+    namespace 'de.haspanext.core'
     compileSdk "$compile_verion".toInteger()
 
     defaultConfig {
@@ -28,18 +28,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    buildFeatures {
-        compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
-    }
 }
 
 dependencies {
-    api project(":ui:nbf-styleguide")
-    api project(":core")
+    def koin_version = "3.2.2"
+    def koin_compose_version = "3.2.1"
 
+    api "io.insert-koin:koin-core:$koin_version"
+    api "io.insert-koin:koin-android:$koin_version"
+    api "io.insert-koin:koin-androidx-compose:$koin_compose_version"
+
+
+    testImplementation 'junit:junit:4.13.2'
 }

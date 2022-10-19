@@ -14,9 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import de.haspanext.authentication.viewmodel.RegisterViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun RegisterScreen(navController: NavController) {
+internal fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = koinViewModel()) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.Cyan

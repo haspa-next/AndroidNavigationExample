@@ -19,7 +19,7 @@ fun NavGraphBuilder.authenticationGraph(
     onNavigateToNextScreen: (destination: AuthenticationNavigationDestination) -> Unit,
     route: String
 ) {
-    val authNavigation = { destination: AuthenticationNavigationDestination ->
+    val externalNavigation = { destination: AuthenticationNavigationDestination ->
         when (destination) {
             AuthenticationNavigationDestination.Content -> onNavigateToNextScreen(
                 AuthenticationNavigationDestination.Content
@@ -30,7 +30,7 @@ fun NavGraphBuilder.authenticationGraph(
     navigation(startDestination = LOGIN, route = route) {
         composable(LOGIN) {
             LoginScreen(navController=navController) {
-                authNavigation(it)
+                externalNavigation(it)
             }
         }
         composable(START_REGISTER) {
