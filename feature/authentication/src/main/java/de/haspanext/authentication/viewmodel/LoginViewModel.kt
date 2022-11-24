@@ -5,15 +5,17 @@ import android.os.Looper
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import de.haspanext.authentication.navigation.NavTarget
 import de.haspanext.authentication.navigation.NavigationState
+import de.haspanext.authentication.navigation.Navigator
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
+internal class LoginViewModel (private val navigator: Navigator): ViewModel() {
     init {
         Log.i("prose", "Init LoginViewModel")
     }
 
-    var isLoading = mutableStateOf(false)
-        private set
+    val isLoading = mutableStateOf(false)
 
     var navigationState = mutableStateOf<NavigationState>(NavigationState.Idle)
         private set
@@ -30,7 +32,8 @@ class LoginViewModel: ViewModel() {
     }
 
     fun onRegisterButtonClicked() {
-        navigationState.value = NavigationState.Register
+        //navigationState.value = NavigationState.Register
+        navigator.navigateTo(NavTarget.Register)
     }
 
     fun onNavigated() {

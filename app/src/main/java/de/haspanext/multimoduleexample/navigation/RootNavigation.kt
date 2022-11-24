@@ -5,8 +5,10 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.haspanext.authentication.navigation.AuthenticationNavigationDestination
+import de.haspanext.authentication.navigation.NavigationComponent
 import de.haspanext.authentication.navigation.authenticationGraph
 import de.haspanext.main.navigation.ContentNavigationDestination
 import de.haspanext.main.navigation.contentGraph
@@ -22,7 +24,9 @@ import de.haspanext.splash.navigation.splashScreenGraph
 internal fun RootNavigationGraph(navController: NavHostController = rememberNavController()) {
     NavHost(navController = navController, startDestination = SPLASH) {
         initNestedSplashGraph(navController)
-        initNestedAuthenticationGraph(navController)
+        composable(AUTH) {
+            initNestedAuthenticationGraph(navController)
+        }
         initNestedContentGraph(navController)
     }
 }
@@ -35,13 +39,14 @@ private fun NavGraphBuilder.initNestedSplashGraph(navController: NavHostControll
             SplashNavigationDestination.Content -> CONTENT
         }
         navController.navigate(route) {
-           popUpTo(SPLASH) { inclusive = true }
+           //popUpTo(SPLASH) { inclusive = true }
         }
     }
     splashScreenGraph(splashNavigation, SPLASH)
 }
 
-private fun NavGraphBuilder.initNestedAuthenticationGraph(navController: NavHostController) {
+@Composable
+private fun initNestedAuthenticationGraph(navController: NavHostController) {
 
     val authNavigation = { destination: AuthenticationNavigationDestination ->
         val route = when (destination) {
@@ -50,11 +55,7 @@ private fun NavGraphBuilder.initNestedAuthenticationGraph(navController: NavHost
         navController.navigate(route)
     }
 
-    authenticationGraph(
-        navController,
-        authNavigation,
-        AUTH
-    )
+    NavigationComponent(onNavigateToNextScreen = authNavigation)
 }
 
 private fun NavGraphBuilder.initNestedContentGraph(navController: NavHostController) {

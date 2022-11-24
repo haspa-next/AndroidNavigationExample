@@ -18,7 +18,7 @@ import de.haspanext.authentication.viewmodel.RegisterViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = koinViewModel()) {
+internal fun RegisterScreen(viewModel: RegisterViewModel = koinViewModel()) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color.Cyan
@@ -38,5 +38,5 @@ internal fun RegisterScreen(navController: NavController, viewModel: RegisterVie
 @Preview
 @Composable
 private fun RegisterScreenPreview() {
-    RegisterScreen(rememberNavController())
+    RegisterScreen()
 }

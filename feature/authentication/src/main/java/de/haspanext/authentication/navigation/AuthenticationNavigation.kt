@@ -1,14 +1,14 @@
 package de.haspanext.authentication.navigation
 
 import android.util.Log
+
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import de.haspanext.authentication.navigation.AuthenticationGraph.LOGIN
-import de.haspanext.authentication.navigation.AuthenticationGraph.START_REGISTER
 import de.haspanext.authentication.ui.LoginScreen
 import de.haspanext.authentication.ui.RegisterScreen
+
 
 sealed interface AuthenticationNavigationDestination {
     object Content : AuthenticationNavigationDestination
@@ -17,8 +17,9 @@ sealed interface AuthenticationNavigationDestination {
 fun NavGraphBuilder.authenticationGraph(
     navController: NavController,
     onNavigateToNextScreen: (destination: AuthenticationNavigationDestination) -> Unit,
-    route: String
+    route: String,
 ) {
+
     val externalNavigation = { destination: AuthenticationNavigationDestination ->
         when (destination) {
             AuthenticationNavigationDestination.Content -> onNavigateToNextScreen(
@@ -27,20 +28,13 @@ fun NavGraphBuilder.authenticationGraph(
         }
     }
 
-    navigation(startDestination = LOGIN, route = route) {
-        composable(LOGIN) {
-            LoginScreen(navController=navController) {
-                externalNavigation(it)
-            }
+    navigation(startDestination = NavTarget.Login.route, route = route) {
+        composable(NavTarget.Login.route) {
+            LoginScreen()
         }
-        composable(START_REGISTER) {
+        composable(NavTarget.Register.route) {
             Log.i("prose", "Inside RegisterIsNext")
-            RegisterScreen(navController)
+            RegisterScreen()
         }
     }
-}
-
-internal object AuthenticationGraph {
-    const val LOGIN = "auth_login"
-    const val START_REGISTER = "auth_start_register"
 }

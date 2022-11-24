@@ -12,33 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import de.haspanext.authentication.navigation.AuthenticationGraph
-import de.haspanext.authentication.navigation.AuthenticationNavigationDestination
-import de.haspanext.authentication.navigation.NavigationState
 import de.haspanext.authentication.viewmodel.LoginViewModel
 import org.koin.androidx.compose.koinViewModel
 
-private fun authNavigator(
-    state: NavigationState, navController: NavController,
-    onNavigateToExternalScreen: (destination: AuthenticationNavigationDestination) -> Unit,
-    onNavigated: () -> Unit
-) {
-    when (state) {
-        NavigationState.Main -> onNavigateToExternalScreen(AuthenticationNavigationDestination.Content)
-        NavigationState.Register -> navController.navigate(AuthenticationGraph.START_REGISTER)
-    }
-
-    //avoid multiple calls when its already idled
-    if (state != NavigationState.Idle) onNavigated()
-}
 
 @Composable
 internal fun LoginScreen(
-    navController: NavController,
     viewModel: LoginViewModel = koinViewModel(),
-    onNavigateToExternalScreen: (destination: AuthenticationNavigationDestination) -> Unit
 ) {
 
     val registerButtonClicked =
@@ -50,12 +30,6 @@ internal fun LoginScreen(
         }
 
     //val isLoading = viewModel.isLoading
-    authNavigator(
-        viewModel.navigationState.value,
-        navController,
-        onNavigateToExternalScreen,
-        viewModel::onNavigated
-    )
     LoginContent(
         isLoading = viewModel.isLoading.value,
         onLoginButtonClicked = loginButtonClicked,
@@ -96,5 +70,5 @@ private fun LoginContent(
 @Preview
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController()) {}
+    LoginScreen()
 }
